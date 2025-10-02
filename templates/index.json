@@ -52,11 +52,23 @@
         "show_view_all": true
       }
     },
+    "text_content": {
+      "type": "text-content",
+      "settings": {
+        "heading": "Exclusive Designs",
+        "content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+        "text_alignment": "center",
+        "button_text": "Shop Now",
+        "button_url": "/collections/all",
+        "background_color": "#FFFFFF",
+        "text_color": "#1F2937"
+      }
+    },
     "featured_products": {
       "type": "featured-products",
       "settings": {
-        "heading": "Featured products",
-        "subheading": "Handpicked pieces from our collection",
+        "heading": "Best Sellers",
+        "subheading": "Each collection is exclusively made in small batches to create as little as possible.",
         "products_to_show": 8,
         "columns_desktop": 4,
         "columns_mobile": "2",
@@ -67,5 +79,5 @@
       }
     }
   },
-  "order": ["hero_carousel", "featured_collections", "featured_products"]
+  "order": ["hero_carousel","text_content", "featured_collections", "featured_products"]
 }

@@ -10,7 +10,7 @@
   assign autoplay_delay = section.settings.autoplay_delay | times: 1000
 %}
 
-<section id="{{ section_id }}" class="hero-carousel" data-autoplay="{{ section.settings.enable_autoplay }}" data-delay="{{ autoplay_delay }}">
+<section id="{{ section_id }}" class="hero-carousel section" data-autoplay="{{ section.settings.enable_autoplay }}" data-delay="{{ autoplay_delay }}">
   <div class="hero-carousel__container">
     <div class="hero-carousel__slides" data-carousel-slides>
       {% for block in section.blocks %}
@@ -35,7 +35,7 @@
               
               <div class="hero-carousel__content hero-carousel__content--{{ block.settings.text_alignment }}">
                 <div class="page-width">
-                  <div class="hero-carousel__text">
+                  <div class="hero-carousel__text scroll-reveal">
                     {% if block.settings.heading != blank %}
                       <h1 class="hero-carousel__heading">
                         {{ block.settings.heading | escape }}
@@ -97,10 +97,11 @@
 {% stylesheet %}
   .hero-carousel {
     position: relative;
-    height: 70vh;
-    min-height: 500px;
-    max-height: 800px;
+    height: 80vh;
+    min-height: 600px;
+    max-height: 900px;
     overflow: hidden;
+    padding: 0;
   }
   
   .hero-carousel__container {
@@ -183,28 +184,31 @@
   }
   
   .hero-carousel__text {
-    max-width: 600px;
-    padding: var(--spacing-xl);
+    max-width: 700px;
+    padding: var(--spacing-2xl);
     background-color: rgba(255, 255, 255, 0.95);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-xl);
+    backdrop-filter: blur(10px);
   }
   
   .hero-carousel__heading {
     font-family: var(--font-heading);
-    font-size: 3rem;
+    font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
     color: var(--color-foreground);
-    margin: 0 0 var(--spacing-md) 0;
+    margin: 0 0 var(--spacing-lg) 0;
     line-height: 1.1;
+    letter-spacing: -0.02em;
   }
   
   .hero-carousel__subheading {
-    font-size: 1.25rem;
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
     color: var(--color-foreground);
-    margin: 0 0 var(--spacing-lg) 0;
-    line-height: 1.5;
-    opacity: 0.8;
+    margin: 0 0 var(--spacing-xl) 0;
+    line-height: 1.6;
+    opacity: 0.9;
+    font-weight: 400;
   }
   
   .hero-carousel__button {
@@ -388,6 +392,8 @@
     startAutoplay();
   });
 {% endjavascript %}
+
+{% render 'scroll-animations' %}
 
 {% schema %}
 {

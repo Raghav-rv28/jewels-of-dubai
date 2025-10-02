@@ -1,0 +1,59 @@
+{% comment %}
+  Scroll Animations Snippet
+  
+  Provides viewport-based scroll animations for sections and elements.
+  Usage: Include this snippet in sections that need scroll animations.
+{% endcomment %}
+
+{% javascript %}
+  class ScrollAnimations {
+    constructor() {
+      this.elements = document.querySelectorAll('.scroll-reveal');
+      this.threshold = 0.1;
+      this.rootMargin = '0px 0px -50px 0px';
+      
+      this.init();
+    }
+    
+    init() {
+      if (this.elements.length === 0) return;
+      
+      this.observer = new IntersectionObserver(
+        this.handleIntersection.bind(this),
+        {
+          threshold: this.threshold,
+          rootMargin: this.rootMargin
+        }
+      );
+      
+      this.elements.forEach(element => {
+        this.observer.observe(element);
+      });
+    }
+    
+    handleIntersection(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          this.observer.unobserve(entry.target);
+        }
+      });
+    }
+    
+    destroy() {
+      if (this.observer) {
+        this.observer.disconnect();
+      }
+    }
+  }
+  
+  // Initialize scroll animations when DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    new ScrollAnimations();
+  });
+  
+  // Re-initialize on page navigation (for SPA-like behavior)
+  document.addEventListener('shopify:section:load', function() {
+    new ScrollAnimations();
+  });
+{% endjavascript %}

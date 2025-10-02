@@ -14,23 +14,23 @@
   assign columns_mobile = section.settings.columns_mobile | default: 2
 %}
 
-<section id="{{ section_id }}" class="featured-collections" style="--columns-desktop: {{ columns_desktop }}; --columns-mobile: {{ columns_mobile }};">
+<section id="{{ section_id }}" class="featured-collections section" style="--columns-desktop: {{ columns_desktop }}; --columns-mobile: {{ columns_mobile }};">
   <div class="page-width">
     {% if heading != blank or subheading != blank %}
-      <div class="featured-collections__header">
+      <div class="featured-collections__header scroll-reveal">
         {% if heading != blank %}
-          <h2 class="featured-collections__heading">{{ heading }}</h2>
+          <h2 class="section-heading">{{ heading }}</h2>
         {% endif %}
         
         {% if subheading != blank %}
-          <p class="featured-collections__subheading">{{ subheading }}</p>
+          <p class="section-subheading">{{ subheading }}</p>
         {% endif %}
       </div>
     {% endif %}
     
-    <div class="featured-collections__grid">
+    <div class="featured-collections__grid scroll-reveal">
       {% for collection in collections limit: collections_to_show %}
-        <div class="featured-collections__item">
+        <div class="featured-collections__item scroll-reveal" style="--animation-delay: {{ forloop.index0 | times: 0.1 }}s;">
           {% render 'collection-card',
             collection: collection,
             show_product_count: section.settings.show_product_count
@@ -76,65 +76,32 @@
 </section>
 
 {% stylesheet %}
-  .featured-collections {
-    padding: var(--spacing-2xl) 0;
-  }
-  
   .featured-collections__header {
-    text-align: center;
-    margin-bottom: var(--spacing-xl);
-  }
-  
-  .featured-collections__heading {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: var(--color-foreground);
-    margin: 0 0 var(--spacing-md) 0;
-  }
-  
-  .featured-collections__subheading {
-    font-size: 1.125rem;
-    color: var(--color-foreground);
-    opacity: 0.8;
-    margin: 0;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom: var(--spacing-3xl);
   }
   
   .featured-collections__grid {
     display: grid;
     grid-template-columns: repeat(var(--columns-desktop, 4), 1fr);
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
   }
   
   .featured-collections__item {
     width: 100%;
+    transition-delay: var(--animation-delay, 0s);
   }
   
   .featured-collections__footer {
     text-align: center;
+    margin-top: var(--spacing-2xl);
   }
   
   /* Mobile styles */
   @media (max-width: 767px) {
-    .featured-collections {
-      padding: var(--spacing-xl) 0;
-    }
-    
     .featured-collections__grid {
       grid-template-columns: repeat(var(--columns-mobile, 2), 1fr);
-      gap: var(--spacing-md);
-    }
-    
-    .featured-collections__heading {
-      font-size: 2rem;
-    }
-    
-    .featured-collections__subheading {
-      font-size: 1rem;
+      gap: var(--spacing-lg);
     }
   }
   
@@ -145,6 +112,8 @@
     }
   }
 {% endstylesheet %}
+
+{% render 'scroll-animations' %}
 
 {% schema %}
 {

@@ -15,24 +15,24 @@
   assign collection = collections[section.settings.collection]
 %}
 
-<section id="{{ section_id }}" class="featured-products" style="--columns-desktop: {{ columns_desktop }}; --columns-mobile: {{ columns_mobile }};">
+<section id="{{ section_id }}" class="featured-products section" style="--columns-desktop: {{ columns_desktop }}; --columns-mobile: {{ columns_mobile }};">
   <div class="page-width">
     {% if heading != blank or subheading != blank %}
-      <div class="featured-products__header">
+      <div class="featured-products__header scroll-reveal">
         {% if heading != blank %}
-          <h2 class="featured-products__heading">{{ heading }}</h2>
+          <h2 class="section-heading">{{ heading }}</h2>
         {% endif %}
         
         {% if subheading != blank %}
-          <p class="featured-products__subheading">{{ subheading }}</p>
+          <p class="section-subheading">{{ subheading }}</p>
         {% endif %}
       </div>
     {% endif %}
     
-    <div class="featured-products__grid">
+    <div class="featured-products__grid scroll-reveal">
       {% if collection and collection.products.size > 0 %}
         {% for product in collection.products limit: products_to_show %}
-          <div class="featured-products__item">
+          <div class="featured-products__item scroll-reveal" style="--animation-delay: {{ forloop.index0 | times: 0.1 }}s;">
             {% render 'product-card',
               product: product,
               show_vendor: section.settings.show_vendor,
@@ -99,65 +99,35 @@
 
 {% stylesheet %}
   .featured-products {
-    padding: var(--spacing-2xl) 0;
     background-color: #fafafa;
   }
   
   .featured-products__header {
-    text-align: center;
-    margin-bottom: var(--spacing-xl);
-  }
-  
-  .featured-products__heading {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: var(--color-foreground);
-    margin: 0 0 var(--spacing-md) 0;
-  }
-  
-  .featured-products__subheading {
-    font-size: 1.125rem;
-    color: var(--color-foreground);
-    opacity: 0.8;
-    margin: 0;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom: var(--spacing-3xl);
   }
   
   .featured-products__grid {
     display: grid;
     grid-template-columns: repeat(var(--columns-desktop, 4), 1fr);
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
   }
   
   .featured-products__item {
     width: 100%;
+    transition-delay: var(--animation-delay, 0s);
   }
   
   .featured-products__footer {
     text-align: center;
+    margin-top: var(--spacing-2xl);
   }
   
   /* Mobile styles */
   @media (max-width: 767px) {
-    .featured-products {
-      padding: var(--spacing-xl) 0;
-    }
-    
     .featured-products__grid {
       grid-template-columns: repeat(var(--columns-mobile, 2), 1fr);
-      gap: var(--spacing-md);
-    }
-    
-    .featured-products__heading {
-      font-size: 2rem;
-    }
-    
-    .featured-products__subheading {
-      font-size: 1rem;
+      gap: var(--spacing-lg);
     }
   }
   
@@ -168,6 +138,8 @@
     }
   }
 {% endstylesheet %}
+
+{% render 'scroll-animations' %}
 
 {% schema %}
 {
