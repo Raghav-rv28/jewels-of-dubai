@@ -1,0 +1,372 @@
+{% render 'css-variables' %}
+
+<header class="header" role="banner">
+  <div class="page-width">
+    <div class="header__content">
+      <!-- Mobile menu toggle -->
+      <button class="header__menu-toggle" aria-label="{{ 'general.navigation.menu' | t }}" aria-expanded="false">
+        <span class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+
+      <!-- Logo -->
+      <div class="header__logo">
+        <h1 class="header__title">
+          <a href="{{ routes.root_url }}" class="header__logo-link">
+            {{ shop.name | escape }}
+          </a>
+        </h1>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="header__nav" role="navigation" aria-label="{{ 'general.navigation.menu' | t }}">
+        <ul class="header__menu">
+          {% for link in section.settings.menu.links %}
+            <li class="header__menu-item">
+              <a href="{{ link.url }}" class="header__menu-link">
+                {{ link.title | escape }}
+              </a>
+              {% if link.links.size > 0 %}
+                <ul class="header__submenu">
+                  {% for childlink in link.links %}
+                    <li class="header__submenu-item">
+                      <a href="{{ childlink.url }}" class="header__submenu-link">
+                        {{ childlink.title | escape }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header__actions">
+        <!-- Search -->
+        <button class="header__search-toggle" aria-label="{{ 'general.navigation.search' | t }}">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 19L13 13M15 8C15 11.866 11.866 15 8 15C4.13401 15 1 11.866 1 8C1 4.13401 4.13401 1 8 1C11.866 1 15 4.13401 15 8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <!-- Account -->
+        {% if shop.customer_accounts_enabled %}
+          <a href="{{ routes.account_url }}" class="header__account" aria-label="{{ 'general.navigation.account' | t }}">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {% endif %}
+
+        <!-- Cart -->
+        <a href="{{ routes.cart_url }}" class="header__cart" aria-label="{{ 'general.navigation.cart' | t }}">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.5 5.1 16.5H17M17 13V17C17 17.6 16.6 18 16 18H8C7.4 18 7 17.6 7 17V13M9 19.5C9.3 19.5 9.5 19.3 9.5 19C9.5 18.7 9.3 18.5 9 18.5C8.7 18.5 8.5 18.7 8.5 19C8.5 19.3 8.7 19.5 9 19.5ZM20 19.5C20.3 19.5 20.5 19.3 20.5 19C20.5 18.7 20.3 18.5 20 18.5C19.7 18.5 19.5 18.7 19.5 19C19.5 19.3 19.7 19.5 20 19.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {% if cart.item_count > 0 %}
+            <span class="header__cart-count">{{ cart.item_count }}</span>
+          {% endif %}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="header__mobile-menu" aria-hidden="true">
+    <nav class="header__mobile-nav">
+      <ul class="header__mobile-menu-list">
+        {% for link in section.settings.menu.links %}
+          <li class="header__mobile-menu-item">
+            <a href="{{ link.url }}" class="header__mobile-menu-link">
+              {{ link.title | escape }}
+            </a>
+            {% if link.links.size > 0 %}
+              <ul class="header__mobile-submenu">
+                {% for childlink in link.links %}
+                  <li class="header__mobile-submenu-item">
+                    <a href="{{ childlink.url }}" class="header__mobile-submenu-link">
+                      {{ childlink.title | escape }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+{% stylesheet %}
+  .header {
+    background-color: var(--color-background);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+  }
+
+  .header__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    gap: var(--spacing-md);
+  }
+
+  .header__logo {
+    flex-shrink: 0;
+  }
+
+  .header__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .header__logo-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-family: var(--font-heading);
+  }
+
+  .header__logo-link:hover {
+    color: var(--color-accent);
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--spacing-lg);
+  }
+
+  .header__menu-item {
+    position: relative;
+  }
+
+  .header__menu-link {
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-weight: 500;
+    padding: var(--spacing-sm) 0;
+    transition: var(--transition-fast);
+  }
+
+  .header__menu-link:hover {
+    color: var(--color-primary);
+  }
+
+  .header__submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--color-background);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-sm) 0;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: var(--transition-normal);
+  }
+
+  .header__menu-item:hover .header__submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .header__submenu-link {
+    display: block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: var(--color-foreground);
+    text-decoration: none;
+    transition: var(--transition-fast);
+  }
+
+  .header__submenu-link:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--color-primary);
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .header__search-toggle,
+  .header__account,
+  .header__cart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: var(--color-foreground);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: var(--transition-fast);
+  }
+
+  .header__search-toggle:hover,
+  .header__account:hover,
+  .header__cart:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--color-primary);
+  }
+
+  .header__cart {
+    position: relative;
+  }
+
+  .header__cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+  }
+
+  .header__menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-foreground);
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .hamburger span {
+    width: 20px;
+    height: 2px;
+    background-color: currentColor;
+    transition: var(--transition-fast);
+  }
+
+  .header__mobile-menu {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-background);
+    transform: translateX(-100%);
+    transition: var(--transition-normal);
+    z-index: var(--z-modal);
+  }
+
+  .header__mobile-menu[aria-hidden="false"] {
+    transform: translateX(0);
+  }
+
+  .header__mobile-nav {
+    padding: var(--spacing-lg);
+  }
+
+  .header__mobile-menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header__mobile-menu-link {
+    display: block;
+    padding: var(--spacing-md) 0;
+    color: var(--color-foreground);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .header__mobile-submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-left: var(--spacing-md);
+  }
+
+  .header__mobile-submenu-link {
+    display: block;
+    padding: var(--spacing-sm) 0;
+    color: var(--color-foreground);
+    text-decoration: none;
+    opacity: 0.8;
+  }
+
+  /* Desktop styles */
+  @media (min-width: 768px) {
+    .header__menu-toggle {
+      display: none;
+    }
+
+    .header__nav {
+      display: block;
+    }
+
+    .header__mobile-menu {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.header__menu-toggle');
+    const mobileMenu = document.querySelector('.header__mobile-menu');
+    
+    if (menuToggle && mobileMenu) {
+      menuToggle.addEventListener('click', function() {
+        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+        menuToggle.setAttribute('aria-expanded', !isExpanded);
+        mobileMenu.setAttribute('aria-hidden', isExpanded);
+      });
+    }
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

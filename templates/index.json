@@ -1,0 +1,71 @@
+{
+  "sections": {
+    "hero_carousel": {
+      "type": "hero-carousel",
+      "settings": {
+        "enable_autoplay": true,
+        "autoplay_delay": 5
+      },
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "heading": "Luxury jewelry collection",
+            "subheading": "Discover our exquisite collection of handcrafted jewelry from around the world",
+            "button_text": "Shop now",
+            "button_url": "/collections/all",
+            "text_alignment": "center"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "heading": "New arrivals",
+            "subheading": "Be the first to see our latest jewelry pieces and exclusive designs",
+            "button_text": "View collection",
+            "button_url": "/collections/new",
+            "text_alignment": "center"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "heading": "Premium craftsmanship",
+            "subheading": "Each piece is carefully crafted by skilled artisans using the finest materials",
+            "button_text": "Learn more",
+            "button_url": "/pages/about",
+            "text_alignment": "center"
+          }
+        }
+      },
+      "block_order": ["slide_1", "slide_2", "slide_3"]
+    },
+    "featured_collections": {
+      "type": "featured-collections",
+      "settings": {
+        "heading": "Featured collections",
+        "subheading": "Explore our curated selection of premium jewelry categories",
+        "collections_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "show_product_count": true,
+        "show_view_all": true
+      }
+    },
+    "featured_products": {
+      "type": "featured-products",
+      "settings": {
+        "heading": "Featured products",
+        "subheading": "Handpicked pieces from our collection",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "show_vendor": false,
+        "show_quick_add": true,
+        "show_badges": true,
+        "show_view_all": true
+      }
+    }
+  },
+  "order": ["hero_carousel", "featured_collections", "featured_products"]
+}

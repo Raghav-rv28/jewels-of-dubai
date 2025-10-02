@@ -1,0 +1,142 @@
+{% style %}
+  {% # Load font variations with display: swap %}
+  {{ settings.type_heading_font | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+
+  :root {
+    /* Brand Colors */
+    --color-primary: {{ settings.color_primary | default: '#D4AF37' }};
+    --color-secondary: {{ settings.color_secondary | default: '#1E3A8A' }};
+    --color-accent: {{ settings.color_accent | default: '#FFD700' }};
+    
+    /* Background & Text */
+    --color-background: {{ settings.background_color | default: '#FFFFFF' }};
+    --color-foreground: {{ settings.foreground_color | default: '#1F2937' }};
+    
+    /* Typography */
+    --font-heading: {{ settings.type_heading_font.family | default: 'Playfair Display, serif' }}, {{ settings.type_heading_font.fallback_families | default: 'serif' }};
+    --font-body: {{ settings.type_body_font.family | default: 'Source Sans Pro, sans-serif' }}, {{ settings.type_body_font.fallback_families | default: 'sans-serif' }};
+    --font-size-base: {{ settings.font_size_base | default: 16 }}px;
+    --font-size-heading: {{ settings.font_size_heading | default: 32 }}px;
+    
+    /* Layout */
+    --page-width: {{ settings.max_page_width | default: '90rem' }};
+    --page-margin: {{ settings.min_page_margin | default: 20 }}px;
+    --border-radius: {{ settings.input_corner_radius | default: 8 }}px;
+    
+    /* Spacing System */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-2xl: 4rem;
+    
+    /* Shadows & Effects */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Transitions */
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 300ms ease-in-out;
+    --transition-slow: 500ms ease-in-out;
+    
+    /* Z-index scale */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+  }
+  
+  /* Base styles */
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 var(--spacing-md) 0;
+  }
+  
+  h1 { font-size: calc(var(--font-size-heading) * 1.5); }
+  h2 { font-size: calc(var(--font-size-heading) * 1.25); }
+  h3 { font-size: var(--font-size-heading); }
+  h4 { font-size: calc(var(--font-size-heading) * 0.875); }
+  h5 { font-size: calc(var(--font-size-heading) * 0.75); }
+  h6 { font-size: calc(var(--font-size-heading) * 0.625); }
+  
+  .page-width {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 var(--page-margin);
+  }
+  
+  /* Button styles */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--border-radius);
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    min-height: 44px;
+  }
+  
+  .btn--primary {
+    background-color: var(--color-primary);
+    color: white;
+  }
+  
+  .btn--primary:hover {
+    background-color: var(--color-accent);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .btn--secondary {
+    background-color: var(--color-secondary);
+    color: white;
+  }
+  
+  .btn--secondary:hover {
+    background-color: var(--color-primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .btn--outline {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+  
+  .btn--outline:hover {
+    background-color: var(--color-primary);
+    color: white;
+  }
+{% endstyle %}

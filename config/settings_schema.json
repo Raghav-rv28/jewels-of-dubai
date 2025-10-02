@@ -1,0 +1,139 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Jewels of Dubai",
+    "theme_version": "1.0.0",
+    "theme_author": "Godspeed",
+    "theme_documentation_url": "https://your-docs.com",
+    "theme_support_url": "https://your-support.com"
+  },
+  {
+    "name": "Brand colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Primary brand colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "default": "#D4AF37",
+        "label": "Primary gold"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "default": "#1E3A8A",
+        "label": "Secondary blue"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "default": "#FFD700",
+        "label": "Accent gold"
+      },
+      {
+        "type": "header",
+        "content": "Background colors"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "default": "#FFFFFF",
+        "label": "Background"
+      },
+      {
+        "type": "color",
+        "id": "foreground_color",
+        "default": "#1F2937",
+        "label": "Text color"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Font selection"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_heading_font",
+        "default": "playfair_display_n4",
+        "label": "Heading font"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "source_sans_pro_n4",
+        "label": "Body font"
+      },
+      {
+        "type": "header",
+        "content": "Font sizes"
+      },
+      {
+        "type": "range",
+        "id": "font_size_base",
+        "min": 12,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "label": "Base font size",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "font_size_heading",
+        "min": 20,
+        "max": 48,
+        "step": 2,
+        "unit": "px",
+        "label": "Heading font size",
+        "default": 32
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "max_page_width",
+        "label": "Page width",
+        "options": [
+          {
+            "value": "90rem",
+            "label": "Narrow"
+          },
+          {
+            "value": "110rem",
+            "label": "Wide"
+          }
+        ],
+        "default": "90rem"
+      },
+      {
+        "type": "range",
+        "id": "min_page_margin",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Page margin",
+        "default": 20
+      },
+      {
+        "type": "range",
+        "id": "input_corner_radius",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "label": "Border radius",
+        "default": 8
+      }
+    ]
+  }
+]

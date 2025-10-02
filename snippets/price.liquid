@@ -1,0 +1,163 @@
+{% doc %}
+  Price Component for Jewelry Store
+  
+  Renders product pricing with compare-at pricing and sale indicators.
+  
+  @param {product} product - Product object (required)
+  @param {boolean} [show_compare_at] - Show compare at price (default: true)
+  @param {boolean} [show_unit_price] - Show unit price (default: false)
+  @param {string} [price_class] - Additional CSS classes
+  
+  @example
+  {% render 'price', product: product, show_compare_at: true %}
+{% enddoc %}
+
+{% liquid
+  assign show_compare_at = show_compare_at | default: true
+  assign show_unit_price = show_unit_price | default: false
+  assign price_class = price_class | default: ''
+  
+  # Early return if required parameters missing
+  unless product != empty
+    echo '<!-- Error: product parameter required for price snippet -->'
+    break
+  endunless
+  
+  assign current_variant = product.selected_or_first_available_variant
+  assign has_compare_price = false
+  
+  if current_variant.compare_at_price > current_variant.price
+    assign has_compare_price = true
+  endif
+%}
+
+<div class="price {{ price_class }}">
+  <div class="price__container">
+    <!-- Regular Price -->
+    <div class="price__regular">
+      <span class="price__amount">
+        {{ current_variant.price | money }}
+      </span>
+    </div>
+    
+    <!-- Compare At Price -->
+    {% if show_compare_at and has_compare_price %}
+      <div class="price__compare-at">
+        <span class="price__compare-amount">
+          {{ current_variant.compare_at_price | money }}
+        </span>
+      </div>
+    {% endif %}
+    
+    <!-- Unit Price -->
+    {% if show_unit_price and current_variant.unit_price_measurement %}
+      <div class="price__unit">
+        <span class="price__unit-amount">
+          {{ current_variant.unit_price | money }}
+        </span>
+        <span class="price__unit-separator">/</span>
+        {%- if current_variant.unit_price_measurement.reference_value != 1 -%}
+          <span class="price__unit-reference">
+            {{ current_variant.unit_price_measurement.reference_value }}
+          </span>
+        {%- endif -%}
+        <span class="price__unit-measurement">
+          {{ current_variant.unit_price_measurement.reference_unit }}
+        </span>
+      </div>
+    {% endif %}
+  </div>
+  
+  <!-- Price Range (for products with multiple variants) -->
+  {% if product.price_varies %}
+    <div class="price__range">
+      <span class="price__range-label">{{ 'products.price_from' | t: price: product.price_min | money }}</span>
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .price {
+    font-family: var(--font-body);
+  }
+  
+  .price__container {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+  }
+  
+  .price__regular {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+  
+  .price__amount {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  
+  .price__compare-at {
+    font-size: 0.875rem;
+    color: #6c757d;
+  }
+  
+  .price__compare-amount {
+    text-decoration: line-through;
+    font-size: inherit;
+  }
+  
+  .price__unit {
+    font-size: 0.75rem;
+    color: #6c757d;
+    margin-top: 2px;
+  }
+  
+  .price__unit-amount {
+    font-weight: 500;
+  }
+  
+  .price__unit-separator {
+    margin: 0 2px;
+  }
+  
+  .price__unit-reference,
+  .price__unit-measurement {
+    font-size: inherit;
+  }
+  
+  .price__range {
+    margin-top: var(--spacing-xs);
+  }
+  
+  .price__range-label {
+    font-size: 0.875rem;
+    color: var(--color-secondary);
+    font-weight: 500;
+  }
+  
+  /* Sale price styling */
+  .price--sale .price__regular {
+    color: #dc3545;
+  }
+  
+  /* Large price variant */
+  .price--large .price__regular {
+    font-size: 1.5rem;
+  }
+  
+  .price--large .price__compare-at {
+    font-size: 1rem;
+  }
+  
+  /* Small price variant */
+  .price--small .price__regular {
+    font-size: 0.875rem;
+  }
+  
+  .price--small .price__compare-at {
+    font-size: 0.75rem;
+  }
+{% endstylesheet %}

@@ -1,0 +1,105 @@
+{
+  "404": {
+    "title": "404",
+    "not_found": "Page not found.",
+    "back_to_shopping": "Back to shopping"
+  },
+  "blog": {
+    "article_comments": "Comments",
+    "article_metadata_html": "{{ date }} by {{ author }}",
+    "comment_form_body": "Comment",
+    "comment_form_email": "Email",
+    "comment_form_name": "Name",
+    "comment_form_submit": "Post",
+    "comment_form_title": "Add a comment"
+  },
+  "cart": {
+    "checkout": "Checkout",
+    "title": "Cart",
+    "update": "Update",
+    "remove": "Remove"
+  },
+  "customers": {
+    "login": {
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "title": "Login"
+    }
+  },
+  "collections": {
+    "title": "Collections",
+    "view_all": "View all",
+    "products_count": "{{ count }} products"
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Add to Apple Wallet",
+    "card": "Gift card",
+    "expired": "This gift card has expired",
+    "expires_on": "Expires on {{ expires_on }}",
+    "use_at_checkout": "Use this gift card at checkout"
+  },
+  "password": {
+    "title": "This shop is private",
+    "password": "Password",
+    "enter": "Enter"
+  },
+  "search": {
+    "title": "Search",
+    "placeholder": "Search for jewelry, collections, or products",
+    "submit": "Search",
+    "no_results_html": "No results found for {{ terms }}",
+    "results_for_html": "{{ count }} results found for {{ terms }}"
+  },
+  "products": {
+    "add_to_cart": "Add to cart",
+    "quick_add": "Quick add",
+    "sold_out": "Sold out",
+    "on_sale": "On sale",
+    "new": "New",
+    "price_from": "From {{ price }}",
+    "compare_at_price": "Compare at {{ price }}"
+  },
+  "sections": {
+    "hero": {
+      "title": "Luxury jewelry collection",
+      "subtitle": "Discover our exquisite collection of handcrafted jewelry",
+      "button_text": "Shop now"
+    },
+    "featured_collections": {
+      "title": "Featured collections",
+      "subtitle": "Explore our curated selection of premium jewelry"
+    },
+    "featured_products": {
+      "title": "Featured products",
+      "subtitle": "Handpicked pieces from our collection"
+    }
+  },
+  "general": {
+    "navigation": {
+      "menu": "Menu",
+      "search": "Search",
+      "account": "Account",
+      "cart": "Cart"
+    },
+    "footer": {
+      "newsletter": {
+        "title": "Stay updated",
+        "subtitle": "Get the latest news about our jewelry collections",
+        "placeholder": "Enter your email",
+        "button": "Subscribe"
+      },
+      "social": {
+        "title": "Follow us"
+      },
+      "links": {
+        "about": "About us",
+        "contact": "Contact",
+        "shipping": "Shipping",
+        "returns": "Returns",
+        "privacy": "Privacy policy",
+        "terms": "Terms of service"
+      }
+    }
+  }
+}
