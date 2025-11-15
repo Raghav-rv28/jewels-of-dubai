@@ -7,8 +7,19 @@
 
 {% liquid
   assign section_id = section.settings.custom_id | default: section.id
-  assign heading = section.settings.heading | default: 'sections.featured_collections.title' | t
-  assign subheading = section.settings.subheading | default: 'sections.featured_collections.subtitle' | t
+  
+  if section.settings.heading != blank
+    assign heading = section.settings.heading
+  else
+    assign heading = 'sections.featured_collections.title' | t
+  endif
+  
+  if section.settings.subheading != blank
+    assign subheading = section.settings.subheading
+  else
+    assign subheading = 'sections.featured_collections.subtitle' | t
+  endif
+  
   assign collections_to_show = section.settings.collections_to_show | default: 8
   assign columns_desktop = section.settings.columns_desktop | default: 4
   assign columns_mobile = section.settings.columns_mobile | default: 2

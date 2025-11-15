@@ -73,14 +73,42 @@
     "featured_products": {
       "title": "Featured products",
       "subtitle": "Handpicked pieces from our collection"
+    },
+    "brand_story": {
+      "title": "Our story",
+      "subtitle": "Crafting timeless elegance since 1985",
+      "button_text": "Learn more"
+    },
+    "testimonials": {
+      "title": "What our customers say",
+      "subtitle": "Trusted by jewelry lovers worldwide",
+      "verified_purchase": "Verified purchase"
+    },
+    "newsletter": {
+      "title": "Stay connected",
+      "subtitle": "Subscribe for exclusive offers and new arrivals",
+      "placeholder": "Enter your email",
+      "button": "Subscribe",
+      "success": "Thank you for subscribing! Check your email to confirm.",
+      "error": "Please enter a valid email address.",
+      "privacy": "We respect your privacy. Unsubscribe at any time."
     }
   },
   "general": {
+    "shop": {
+      "title": "Dubai Jewellers"
+    },
     "navigation": {
       "menu": "Menu",
       "search": "Search",
       "account": "Account",
-      "cart": "Cart"
+      "cart": "Cart",
+      "shop": "SHOP",
+      "rings": "RINGS",
+      "journal": "JOURNAL",
+      "our_story": "OUR STORY",
+      "contact": "CONTACT",
+      "currency": "Canada (CAD $)"
     },
     "footer": {
       "newsletter": {

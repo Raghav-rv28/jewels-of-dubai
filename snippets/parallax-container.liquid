@@ -1,0 +1,238 @@
+{% doc %}
+  Parallax Container Snippet
+
+  Creates a parallax scrolling effect for background images or videos.
+  Optimized for performance using transform3d and Intersection Observer.
+
+  @param {string} image - Image URL for background
+  @param {string} video - Video URL for background (overrides image if provided)
+  @param {string} speed - Parallax speed multiplier (default: '0.5')
+  @param {string} height - Container height (default: '500px')
+  @param {string} overlay_opacity - Overlay opacity 0-1 (default: '0.3')
+  @param {string} overlay_color - Overlay color (default: '#000000')
+  @param {string} container_class - Additional CSS classes
+
+  @example
+  {% render 'parallax-container',
+    image: section.settings.background_image,
+    speed: '0.5',
+    height: '600px',
+    overlay_opacity: '0.4'
+  %}
+{% enddoc %}
+
+{% liquid
+  assign image = image | default: ''
+  assign video = video | default: ''
+  assign speed = speed | default: '0.5'
+  assign height = height | default: '500px'
+  assign overlay_opacity = overlay_opacity | default: '0.3'
+  assign overlay_color = overlay_color | default: '#000000'
+  assign container_class = container_class | default: ''
+%}
+
+<div 
+  class="parallax-container {{ container_class }}" 
+  data-parallax-container
+  data-parallax-speed="{{ speed }}"
+  style="--parallax-height: {{ height }}; --overlay-opacity: {{ overlay_opacity }}; --overlay-color: {{ overlay_color }};"
+>
+  {% if video != blank %}
+    <div class="parallax-container__media" data-parallax-media>
+      <video 
+        class="parallax-container__video"
+        autoplay 
+        muted 
+        loop 
+        playsinline
+        preload="metadata"
+      >
+        {%- comment -%}theme-check-disable RemoteAsset{%- endcomment -%}
+        <source src="{{ video }}" type="video/mp4">
+        {%- comment -%}theme-check-enable RemoteAsset{%- endcomment -%}
+      </video>
+    </div>
+  {% elsif image != blank %}
+    <div class="parallax-container__media" data-parallax-media>
+      {% render 'image',
+        image: image,
+        width: 1920,
+        height: 1080,
+        class: 'parallax-container__image',
+        loading: 'lazy'
+      %}
+    </div>
+  {% else %}
+    <div class="parallax-container__media" data-parallax-media>
+      <div class="parallax-container__placeholder">
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'parallax-container__placeholder-svg' }}
+      </div>
+    </div>
+  {% endif %}
+  
+  <div class="parallax-container__overlay"></div>
+  
+  <div class="parallax-container__content">
+    {{ content_for_layout }}
+  </div>
+</div>
+
+{% stylesheet %}
+  .parallax-container {
+    position: relative;
+    width: 100%;
+    height: var(--parallax-height, 500px);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  
+  .parallax-container__media {
+    position: absolute;
+    top: -20%;
+    left: 0;
+    width: 100%;
+    height: 140%;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+  }
+  
+  .parallax-container__image,
+  .parallax-container__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  .parallax-container__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+  }
+  
+  .parallax-container__placeholder-svg {
+    width: 200px;
+    height: 200px;
+    opacity: 0.3;
+  }
+  
+  .parallax-container__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-color, #000000);
+    opacity: var(--overlay-opacity, 0.3);
+    z-index: 1;
+  }
+  
+  .parallax-container__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Disable parallax on mobile for performance */
+  @media (max-width: 768px) {
+    .parallax-container__media {
+      top: 0;
+      height: 100%;
+      transform: none !important;
+    }
+  }
+  
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .parallax-container__media {
+      top: 0;
+      height: 100%;
+      transform: none !important;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class ParallaxEffect {
+    constructor() {
+      this.containers = document.querySelectorAll('[data-parallax-container]');
+      this.isMobile = window.innerWidth <= 768;
+      this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      
+      if (this.containers.length && !this.isMobile && !this.prefersReducedMotion) {
+        this.init();
+      }
+    }
+    
+    init() {
+      this.observer = new IntersectionObserver(
+        this.handleIntersection.bind(this),
+        {
+          threshold: 0,
+          rootMargin: '100px 0px'
+        }
+      );
+      
+      this.containers.forEach(container => {
+        this.observer.observe(container);
+      });
+      
+      this.handleScroll = this.handleScroll.bind(this);
+    }
+    
+    handleIntersection(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          window.addEventListener('scroll', this.handleScroll, { passive: true });
+          this.updateParallax(entry.target);
+        } else {
+          window.removeEventListener('scroll', this.handleScroll);
+        }
+      });
+    }
+    
+    handleScroll() {
+      requestAnimationFrame(() => {
+        this.containers.forEach(container => {
+          const rect = container.getBoundingClientRect();
+          if (rect.top < window.innerHeight && rect.bottom > 0) {
+            this.updateParallax(container);
+          }
+        });
+      });
+    }
+    
+    updateParallax(container) {
+      const rect = container.getBoundingClientRect();
+      const speed = parseFloat(container.dataset.parallaxSpeed) || 0.5;
+      const media = container.querySelector('[data-parallax-media]');
+      
+      if (!media) return;
+      
+      const scrollProgress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      const translateY = (scrollProgress - 0.5) * 100 * speed;
+      
+      media.style.transform = `translate3d(0, ${translateY}px, 0)`;
+    }
+    
+    destroy() {
+      if (this.observer) {
+        this.observer.disconnect();
+      }
+      window.removeEventListener('scroll', this.handleScroll);
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    new ParallaxEffect();
+  });
+  
+  document.addEventListener('shopify:section:load', function() {
+    new ParallaxEffect();
+  });
+{% endjavascript %}
+

@@ -1,0 +1,213 @@
+{% comment %}
+  Reusable Header Navigation Component
+  
+  Parameters:
+  - transparent: boolean (default: false) - Makes header transparent with white text
+  - menu: link_list object - The menu to render
+  - modifier_class: string - Additional CSS class for styling variations
+{% endcomment %}
+
+{% liquid
+  assign transparent = transparent | default: false
+  assign modifier_class = modifier_class | default: ''
+  assign header_class = 'header-nav'
+  
+  if transparent
+    assign header_class = header_class | append: ' header-nav--transparent'
+  endif
+  
+  if modifier_class != blank
+    assign header_class = header_class | append: ' ' | append: modifier_class
+  endif
+%}
+
+<div class="{{ header_class }}">
+  <div class="header-nav__container">
+    <!-- Mobile menu toggle -->
+    <button class="header-nav__menu-toggle" aria-label="{{ 'general.navigation.menu' | t }}" aria-expanded="false" data-menu-toggle>
+      <span class="header-nav__hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+
+    <!-- Logo -->
+    <div class="header-nav__logo">
+      <a href="{{ routes.root_url }}" class="header-nav__logo-link">
+        {{ 'general.shop.title' | t | default: shop.name | escape }}
+      </a>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="header-nav__nav" role="navigation" aria-label="{{ 'general.navigation.menu' | t }}">
+      <ul class="header-nav__menu">
+        {% if menu %}
+          {% for link in menu.links %}
+            <li class="header-nav__menu-item">
+              <a href="{{ link.url }}" class="header-nav__menu-link">
+                {{ link.title | escape }}
+              </a>
+              {% if link.links.size > 0 %}
+                <ul class="header-nav__submenu">
+                  {% for childlink in link.links %}
+                    <li class="header-nav__submenu-item">
+                      <a href="{{ childlink.url }}" class="header-nav__submenu-link">
+                        {{ childlink.title | escape }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+        {% else %}
+          <li class="header-nav__menu-item">
+            <a href="{{ routes.collections_url }}" class="header-nav__menu-link">
+              {{ 'general.navigation.shop' | t }}
+            </a>
+          </li>
+          <li class="header-nav__menu-item">
+            <a href="{{ routes.collections_url }}/rings" class="header-nav__menu-link">
+              {{ 'general.navigation.rings' | t }}
+            </a>
+          </li>
+          <li class="header-nav__menu-item">
+            <a href="{{ routes.blogs_url }}/news" class="header-nav__menu-link">
+              {{ 'general.navigation.journal' | t }}
+            </a>
+          </li>
+          <li class="header-nav__menu-item">
+            <a href="{{ routes.root_url }}pages/about" class="header-nav__menu-link">
+              {{ 'general.navigation.our_story' | t }}
+            </a>
+          </li>
+          <li class="header-nav__menu-item">
+            <a href="{{ routes.root_url }}pages/contact" class="header-nav__menu-link">
+              {{ 'general.navigation.contact' | t }}
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header-nav__actions">
+      <!-- Currency/Region -->
+      <div class="header-nav__currency">
+        <span>{{ 'general.navigation.currency' | t }}</span>
+      </div>
+
+      <!-- Search -->
+      <button class="header-nav__search-toggle" aria-label="{{ 'general.navigation.search' | t }}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <!-- Account -->
+      {% if shop.customer_accounts_enabled %}
+        <a href="{{ routes.account_url }}" class="header-nav__account" aria-label="{{ 'general.navigation.account' | t }}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {% endif %}
+
+      <!-- Cart -->
+      <a href="{{ routes.cart_url }}" class="header-nav__cart" aria-label="{{ 'general.navigation.cart' | t }}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.5 5.1 16.5H17M17 13V17C17 18.1 16.1 19 15 19H9C7.9 19 7 18.1 7 17V13M17 13H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        {% if cart.item_count > 0 %}
+          <span class="header-nav__cart-count">{{ cart.item_count }}</span>
+        {% endif %}
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="header-nav__mobile-menu" aria-hidden="true" data-mobile-menu>
+    <nav class="header-nav__mobile-nav">
+      <ul class="header-nav__mobile-menu-list">
+        {% if menu %}
+          {% for link in menu.links %}
+            <li class="header-nav__mobile-menu-item">
+              <a href="{{ link.url }}" class="header-nav__mobile-menu-link">
+                {{ link.title | escape }}
+              </a>
+              {% if link.links.size > 0 %}
+                <ul class="header-nav__mobile-submenu">
+                  {% for childlink in link.links %}
+                    <li class="header-nav__mobile-submenu-item">
+                      <a href="{{ childlink.url }}" class="header-nav__mobile-submenu-link">
+                        {{ childlink.title | escape }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+          {% endfor %}
+        {% else %}
+          <li class="header-nav__mobile-menu-item">
+            <a href="{{ routes.collections_url }}" class="header-nav__mobile-menu-link">
+              {{ 'general.navigation.shop' | t }}
+            </a>
+          </li>
+          <li class="header-nav__mobile-menu-item">
+            <a href="{{ routes.collections_url }}/rings" class="header-nav__mobile-menu-link">
+              {{ 'general.navigation.rings' | t }}
+            </a>
+          </li>
+          <li class="header-nav__mobile-menu-item">
+            <a href="{{ routes.blogs_url }}/news" class="header-nav__mobile-menu-link">
+              {{ 'general.navigation.journal' | t }}
+            </a>
+          </li>
+          <li class="header-nav__mobile-menu-item">
+            <a href="{{ routes.root_url }}pages/about" class="header-nav__mobile-menu-link">
+              {{ 'general.navigation.our_story' | t }}
+            </a>
+          </li>
+          <li class="header-nav__mobile-menu-item">
+            <a href="{{ routes.root_url }}pages/contact" class="header-nav__mobile-menu-link">
+              {{ 'general.navigation.contact' | t }}
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<script>
+  if (!window.headerNavInitialized) {
+    window.headerNavInitialized = true;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggles = document.querySelectorAll('[data-menu-toggle]');
+      
+      menuToggles.forEach(menuToggle => {
+        const headerNav = menuToggle.closest('.header-nav');
+        const mobileMenu = headerNav.querySelector('[data-mobile-menu]');
+        
+        if (menuToggle && mobileMenu) {
+          menuToggle.addEventListener('click', function() {
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.setAttribute('aria-hidden', isExpanded);
+            
+            // Prevent body scroll when menu is open
+            if (!isExpanded) {
+              document.body.style.overflow = 'hidden';
+            } else {
+              document.body.style.overflow = '';
+            }
+          });
+        }
+      });
+    });
+  }
+</script>
+
