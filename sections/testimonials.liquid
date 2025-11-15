@@ -58,7 +58,8 @@
                   customer_name: block.settings.customer_name,
                   customer_location: block.settings.customer_location,
                   rating: block.settings.rating,
-                  customer_image: block.settings.customer_image
+                  customer_image: block.settings.customer_image,
+                  card_class: ''
                 %}
               </div>
           {% endcase %}
@@ -73,7 +74,10 @@
               {% render 'testimonial-card',
                 quote: placeholder_quotes[index],
                 customer_name: placeholder_names[index],
-                rating: 5
+                customer_location: '',
+                rating: 5,
+                customer_image: '',
+                card_class: ''
               %}
             </div>
           {% endfor %}

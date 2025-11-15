@@ -5,18 +5,17 @@
 
   @param {string} quote - Testimonial quote text (required)
   @param {string} customer_name - Customer name (required)
-  @param {string} customer_location - Customer location (optional)
-  @param {number} rating - Star rating 1-5 (default: 5)
-  @param {string} customer_image - Customer image URL (optional)
-  @param {string} card_class - Additional CSS classes
+  @param {string} [customer_location] - Customer location (optional)
+  @param {number} [rating] - Star rating 1-5 (default: 5)
+  @param {string} [customer_image] - Customer image URL (optional)
+  @param {string} [card_class] - Additional CSS classes (optional)
 
   @example
   {% render 'testimonial-card',
     quote: "Beautiful jewelry, excellent service!",
     customer_name: "Sarah Johnson",
     customer_location: "Dubai, UAE",
-    rating: 5,
-    customer_image: customer.image
+    rating: 5
   %}
 {% enddoc %}
 
@@ -63,13 +62,7 @@
     <div class="testimonial-card__customer">
       {% if customer_image != blank %}
         <div class="testimonial-card__avatar">
-          <img 
-            src="{{ customer_image }}" 
-            alt="{{ customer_name | escape }}"
-            loading="lazy"
-            width="48"
-            height="48"
-          >
+          {{- customer_image | image_url: width: 96 | image_tag: alt: customer_name, loading: 'lazy', width: 48, height: 48 -}}
         </div>
       {% else %}
         <div class="testimonial-card__avatar testimonial-card__avatar--placeholder">

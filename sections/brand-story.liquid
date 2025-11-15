@@ -31,18 +31,22 @@
         {% if enable_parallax %}
           {% if section.settings.video_url != blank %}
             {% render 'parallax-container',
+              image: '',
               video: section.settings.video_url,
               speed: parallax_speed,
               height: '600px',
               overlay_opacity: section.settings.overlay_opacity,
+              overlay_color: '#000000',
               container_class: 'brand-story__parallax'
             %}
           {% elsif section.settings.image != blank %}
             {% render 'parallax-container',
               image: section.settings.image,
+              video: '',
               speed: parallax_speed,
               height: '600px',
               overlay_opacity: section.settings.overlay_opacity,
+              overlay_color: '#000000',
               container_class: 'brand-story__parallax'
             %}
           {% else %}
@@ -73,8 +77,7 @@
                 image: section.settings.image,
                 width: 800,
                 height: 600,
-                class: 'brand-story__image',
-                loading: 'lazy'
+                class: 'brand-story__image'
               %}
               <div class="brand-story__overlay" style="opacity: {{ section.settings.overlay_opacity }};"></div>
             </div>

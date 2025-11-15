@@ -10,7 +10,6 @@
   assign heading = section.settings.heading
   assign subheading = section.settings.subheading
   assign enable_parallax = section.settings.enable_parallax
-  assign parallax_speed = section.settings.parallax_speed
 %}
 
 <section 
@@ -24,18 +23,22 @@
     {% if enable_parallax %}
       {% if section.settings.video_url != blank %}
         {% render 'parallax-container',
+          image: '',
           video: section.settings.video_url,
-          speed: parallax_speed,
+          speed: section.settings.parallax_speed,
           height: section.settings.section_height | append: 'px',
           overlay_opacity: section.settings.overlay_opacity,
+          overlay_color: '#000000',
           container_class: 'newsletter-parallax__container'
         %}
       {% elsif section.settings.background_image != blank %}
         {% render 'parallax-container',
           image: section.settings.background_image,
-          speed: parallax_speed,
+          video: '',
+          speed: section.settings.parallax_speed,
           height: section.settings.section_height | append: 'px',
           overlay_opacity: section.settings.overlay_opacity,
+          overlay_color: '#000000',
           container_class: 'newsletter-parallax__container'
         %}
       {% else %}
@@ -62,12 +65,7 @@
         </div>
       {% elsif section.settings.background_image != blank %}
         <div class="newsletter-parallax__image-wrapper">
-          {% render 'image',
-            image: section.settings.background_image,
-            width: 1920,
-            height: 1080,
-            class: 'newsletter-parallax__image'
-          %}
+          {{- section.settings.background_image | image_url: width: 1920 | image_tag: class: 'newsletter-parallax__image', loading: 'lazy' -}}
           <div class="newsletter-parallax__overlay" style="opacity: {{ section.settings.overlay_opacity }};"></div>
         </div>
       {% else %}

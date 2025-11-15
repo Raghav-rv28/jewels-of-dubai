@@ -4,13 +4,13 @@
   Creates a parallax scrolling effect for background images or videos.
   Optimized for performance using transform3d and Intersection Observer.
 
-  @param {string} image - Image URL for background
-  @param {string} video - Video URL for background (overrides image if provided)
-  @param {string} speed - Parallax speed multiplier (default: '0.5')
-  @param {string} height - Container height (default: '500px')
-  @param {string} overlay_opacity - Overlay opacity 0-1 (default: '0.3')
-  @param {string} overlay_color - Overlay color (default: '#000000')
-  @param {string} container_class - Additional CSS classes
+  @param {string} [image] - Image URL for background (optional)
+  @param {string} [video] - Video URL for background (optional, overrides image if provided)
+  @param {string} [speed] - Parallax speed multiplier (default: '0.5')
+  @param {string} [height] - Container height (default: '500px')
+  @param {string} [overlay_opacity] - Overlay opacity 0-1 (default: '0.3')
+  @param {string} [overlay_color] - Overlay color (default: '#000000')
+  @param {string} [container_class] - Additional CSS classes
 
   @example
   {% render 'parallax-container',
@@ -58,8 +58,7 @@
         image: image,
         width: 1920,
         height: 1080,
-        class: 'parallax-container__image',
-        loading: 'lazy'
+        class: 'parallax-container__image'
       %}
     </div>
   {% else %}
